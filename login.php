@@ -2,6 +2,7 @@
 session_start();
 if (isset($_SESSION['codigo'])) {
     echo '<script> window.location="turno.php"; </script>';
+    exit();
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -30,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else {
     echo '<script> window.location="index.html"; </script>';
+    exit();
 }
 function quitarCaracteres($texto){
     $texto = trim($texto);
@@ -64,9 +66,7 @@ $usuario = quitarCaracteres($usuario);
 $contrasena = quitarCaracteres($contrasena);
 $contrasena = openssl_encrypt($contrasena, 'aes-256-cbc', $clave, 0, $iv);
 
-
 $ConsultaSQL = "SELECT PKUSU_NCODIGO FROM hospitalUniminuto.tbl_rusuarios WHERE USU_CDOCUMENTO = '$usuario' AND USU_CONTRASENA = '$contrasena';";
-echo $ConsultaSQL;
 if($ResultadoSQL = $ConexionSQL->query($ConsultaSQL)) {
     $CantidadResultados = $ResultadoSQL->num_rows;
     if ($CantidadResultados > 0) {
